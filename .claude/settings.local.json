@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "WebFetch(domain:arbitragehero.com)",
+      "Bash(xargs grep -l \"export\")",
+      "Bash(node -e \"const icons = require\\('C:/Users/rebec/OneDrive/Desktop/Sourcing-VA-training-services-main/node_modules/lucide-react/dist/cjs/lucide-react.js'\\); const names=['Search','Handshake','Calculator','LineChart','Video','Chrome','ShieldCheck','ListChecks','FolderOpen','RefreshCw','Filter','Zap','Eye','Target','Database','Layers','MessageSquare','ClipboardList','Radio','PlayCircle','BarChart3','DollarSign','Percent','Package','Compass']; names.forEach\\(n => console.log\\(n, typeof icons[n]\\)\\);\")"
+    ]
+  }
+}

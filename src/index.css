@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Palette re-toned to light yellow and white — true yellow family, no amber/orange */
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --color-brand: #a16207;        /* yellow-700, was amber #b45309 */
+  --color-brand-bright: #ca8a04; /* yellow-600, was amber #f59e0b */
+  --color-brand-deep: #854d0e;   /* yellow-800, was amber #92400e */
+  --color-tint: #fefce8;         /* yellow-50 */
+  --color-tint-2: #fef9c3;       /* yellow-100 */
+  --color-tint-3: #fef08a;       /* yellow-200 */
+  --color-glow: #fde047;         /* yellow-300 */
+  --color-page: #fffefa;         /* near-white, faint yellow cast */
+  --color-ink: #201c10;
+  --color-body: #55503a;
+  --color-muted: #85805f;
+  --color-line: #ece4c0;
+  --color-accent: #fdd000;
+  --color-accent-ink: #6e5900;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--color-page); }
