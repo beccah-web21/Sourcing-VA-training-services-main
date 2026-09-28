@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Bell, Menu, X, GraduationCap } from 'lucide-react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Bell, Menu, X } from 'lucide-react'
 
 const navLinks = [
   { text: 'Home', link: '/' },
-  { text: 'Course', link: '/courses' },
-  { text: 'Pricing', link: '/subscription' },
+  { text: 'Join the Training', link: '/subscription' },
 ]
 
 // Shared button styles — every button on the site is yellow
@@ -18,11 +17,22 @@ export const btn = {
     'inline-flex items-center justify-center gap-2 rounded-full bg-tint-2 px-7 py-3.5 text-sm font-extrabold tracking-wide text-brand transition hover:-translate-y-0.5 hover:bg-tint-3',
 }
 
+// Bold yellow-and-white styles shared by the Landing and Pricing pages
+export const cta = {
+  yellow:
+    'inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-accent px-7 py-3 text-sm font-extrabold text-ink shadow-[4px_4px_0_var(--color-ink)] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--color-ink)]',
+  white:
+    'inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-white px-7 py-3 text-sm font-extrabold text-ink transition hover:bg-tint-2',
+  whiteRaised:
+    'inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-white px-7 py-3 text-sm font-extrabold text-ink shadow-[4px_4px_0_var(--color-ink)] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--color-ink)]',
+}
+export const card = 'rounded-2xl border-2 border-ink bg-white shadow-[6px_6px_0_var(--color-ink)]'
+
 export function Logo() {
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      <span className="grid size-10 place-items-center rounded-xl bg-brand-bright text-white shadow-md shadow-brand-bright/30">
-        <GraduationCap className="size-6" />
+      <span className="size-11 shrink-0 overflow-hidden rounded-full border-2 border-ink bg-white">
+        <img src="/logo.jpg" alt="" className="size-full scale-[1.3] object-cover" />
       </span>
       <span className="text-base font-extrabold leading-tight tracking-tight text-ink sm:text-xl">Sourcing VA Training Services</span>
     </Link>
@@ -31,8 +41,15 @@ export function Logo() {
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
-  const linkClass = ({ isActive }) =>
-    `text-sm font-bold transition ${isActive ? 'text-brand' : 'text-body hover:text-brand'}`
+  const { state } = useLocation()
+  // Yellow underline slides in on hover and marks the link the visitor clicked.
+  // Home is only underlined after a navbar click, not when someone first lands on the site.
+  const linkClass = (link) => ({ isActive }) => {
+    const underlined = isActive && (link !== '/' || state?.fromNav)
+    return `relative w-fit text-sm font-bold transition after:absolute after:-bottom-1.5 after:left-0 after:h-[3px] after:rounded-full after:bg-accent after:transition-[width] after:duration-200 hover:text-ink hover:after:w-full focus-visible:after:w-full ${
+      underlined ? 'text-ink after:w-full' : 'text-body after:w-0'
+    }`
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-tint-2 bg-white/85 backdrop-blur">
@@ -40,7 +57,7 @@ export function Navbar() {
         <Logo />
         <div className="hidden items-center gap-8 md:flex">
           {navLinks.map((l) => (
-            <NavLink key={l.link} to={l.link} end className={linkClass}>
+            <NavLink key={l.link} to={l.link} state={{ fromNav: true }} end className={linkClass(l.link)}>
               {l.text}
             </NavLink>
           ))}
@@ -58,7 +75,7 @@ export function Navbar() {
         <div className="border-t border-tint-2 bg-white px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             {navLinks.map((l) => (
-              <NavLink key={l.link} to={l.link} end className={linkClass} onClick={() => setOpen(false)}>
+              <NavLink key={l.link} to={l.link} state={{ fromNav: true }} end className={linkClass(l.link)} onClick={() => setOpen(false)}>
                 {l.text}
               </NavLink>
             ))}

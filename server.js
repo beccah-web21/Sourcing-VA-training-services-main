@@ -5,6 +5,7 @@ import Stripe from 'stripe'
 import multer from 'multer'
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { PAYMENT_OPTIONS, PAYMENT_METHODS } from './src/paymentOptions.js'
 import { sendPaymentEmails, mailEnabled } from './mailer.js'
@@ -97,6 +98,64 @@ app.post('/api/payment-submissions', (req, res) => {
     } catch (err) {
       console.error('Save submission error:', err.message)
       res.status(500).json({ error: 'Could not save your submission. Please try again.' })
+    }
+  })
+})
+
+// ---- Editable site images (admin only) ----
+// Uploaded images are saved to site-images/<slot>.<ext> and served at /api/site-images/<slot>.
+// Uploading requires the ADMIN_PASSWORD from .env, sent in the x-admin-password header.
+const SITE_IMAGES_DIR = path.join(ROOT, 'site-images')
+const SITE_IMAGE_SLOTS = ['course']
+const IMAGE_TYPES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' }
+
+const imageUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => cb(null, Boolean(IMAGE_TYPES[file.mimetype])),
+})
+
+const isAdmin = (req) => {
+  const expected = Buffer.from(process.env.ADMIN_PASSWORD || '')
+  const given = Buffer.from(req.get('x-admin-password') || '')
+  return expected.length > 0 && given.length === expected.length && crypto.timingSafeEqual(given, expected)
+}
+
+const findSiteImage = async (slot) => {
+  const files = await fs.readdir(SITE_IMAGES_DIR).catch(() => [])
+  return files.find((f) => f.startsWith(`${slot}.`))
+}
+
+app.get('/api/site-images/:slot', async (req, res) => {
+  if (!SITE_IMAGE_SLOTS.includes(req.params.slot)) return res.status(404).end()
+  const file = await findSiteImage(req.params.slot)
+  if (!file) return res.status(404).end()
+  res.set('Cache-Control', 'no-cache')
+  res.sendFile(path.join(SITE_IMAGES_DIR, file))
+})
+
+app.post('/api/site-images/:slot', (req, res) => {
+  const { slot } = req.params
+  if (!SITE_IMAGE_SLOTS.includes(slot)) return res.status(404).json({ error: 'Unknown image.' })
+  if (!process.env.ADMIN_PASSWORD) return res.status(503).json({ error: 'Add ADMIN_PASSWORD to the .env file to enable image uploads.' })
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Wrong admin password.' })
+
+  imageUpload.single('image')(req, res, async (uploadErr) => {
+    if (uploadErr) {
+      const msg = uploadErr.code === 'LIMIT_FILE_SIZE' ? 'Image must be 5MB or smaller.' : 'Could not upload the image.'
+      return res.status(400).json({ error: msg })
+    }
+    if (!req.file) return res.status(400).json({ error: 'Choose a JPG, PNG, or WEBP image.' })
+    try {
+      await fs.mkdir(SITE_IMAGES_DIR, { recursive: true })
+      const old = await findSiteImage(slot)
+      if (old) await fs.rm(path.join(SITE_IMAGES_DIR, old))
+      await fs.writeFile(path.join(SITE_IMAGES_DIR, `${slot}${IMAGE_TYPES[req.file.mimetype]}`), req.file.buffer)
+      console.log(`🖼  Site image updated: ${slot}`)
+      res.json({ ok: true, updatedAt: Date.now() })
+    } catch (err) {
+      console.error('Save site image error:', err.message)
+      res.status(500).json({ error: 'Could not save the image. Please try again.' })
     }
   })
 })

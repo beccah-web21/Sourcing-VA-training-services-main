@@ -4,7 +4,7 @@ import {
   ArrowLeft, CreditCard, HelpCircle, MessageCircleQuestion, Mail, Lock, AlertTriangle, QrCode, Copy, Check,
   Upload, FileText, Send, CheckCircle2, Loader2, X, ShieldCheck, Wallet, Download,
 } from 'lucide-react'
-import { Page, Footer } from '../components/Layout.jsx'
+import { Page, Footer, cta } from '../components/Layout.jsx'
 import { PAYMENT_OPTIONS, PAYMENT_METHODS, formatPeso } from '../paymentOptions.js'
 import { PAY_TO, SUPPORT_EMAIL } from '../config.js'
 
@@ -35,9 +35,9 @@ const EMPTY_FORM = { firstName: '', lastName: '', phone: '', email: '', confirmE
 const MAX_FILE = 5 * 1024 * 1024
 const FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
 
-const card = 'rounded-[2rem] bg-white p-6 shadow-[0_12px_35px_rgba(32,28,16,0.06)] md:p-8'
+const card = 'rounded-3xl border-2 border-ink bg-white p-6 shadow-[6px_6px_0_var(--color-ink)] md:p-8'
 const inputCls =
-  'w-full rounded-2xl border border-line bg-white px-4 py-3.5 text-sm font-medium text-ink outline-none transition placeholder:text-muted focus:border-brand-bright focus:ring-4 focus:ring-brand-bright/15'
+  'w-full rounded-2xl border-2 border-ink/25 bg-white px-4 py-3.5 text-sm font-medium text-ink outline-none transition placeholder:text-muted focus:border-ink focus:ring-4 focus:ring-accent/50'
 
 function Field({ label, hint, children, className = '' }) {
   return (
@@ -62,7 +62,7 @@ function CopyButton({ value }) {
           setTimeout(() => setCopied(false), 2000)
         } catch { /* clipboard unavailable */ }
       }}
-      className="inline-flex items-center gap-1 rounded-full bg-tint-2 px-2.5 py-1 text-[11px] font-extrabold text-brand transition hover:bg-tint-3"
+      className="inline-flex items-center gap-1 rounded-full border-2 border-ink bg-accent text-ink px-2.5 py-1 text-[11px] font-extrabold transition hover:bg-tint-3"
     >
       {copied ? <><Check className="size-3" /> Copied</> : <><Copy className="size-3" /> Copy</>}
     </button>
@@ -71,8 +71,8 @@ function CopyButton({ value }) {
 
 function PolicyNote({ title, children }) {
   return (
-    <div className="flex gap-3 rounded-2xl border border-accent/60 bg-accent/10 p-4" role="note">
-      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent text-accent-ink"><AlertTriangle className="size-4" /></span>
+    <div className="flex gap-3 rounded-2xl border-2 border-ink bg-tint-2 p-4" role="note">
+      <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-ink bg-accent text-ink"><AlertTriangle className="size-4" /></span>
       <div>
         <strong className="text-sm font-extrabold text-ink">{title}</strong>
         <p className="mt-1 text-xs leading-5 text-body">{children}</p>
@@ -158,24 +158,24 @@ export default function Checkout() {
   return (
     <Page footer={<Footer copyright="© 2026 Sourcing VA Training Services. All rights reserved." />}>
       <section className="mx-auto max-w-[1280px] px-6 py-10 md:px-8 md:py-14">
-        <Link to="/subscription" className="inline-flex items-center gap-2 text-sm font-bold text-brand hover:underline">
-          <ArrowLeft className="size-4" /> Back to Pricing
+        <Link to="/subscription" className="inline-flex items-center gap-2 text-sm font-bold text-ink hover:underline">
+          <ArrowLeft className="size-4" /> Back to Join the Training
         </Link>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[240px_1fr]">
           {/* Sidebar */}
           <aside className="h-fit lg:sticky lg:top-24">
-            <div className="rounded-[1.75rem] bg-gradient-to-br from-brand-bright to-brand-deep p-5 text-white">
+            <div className="rounded-2xl border-2 border-ink bg-accent text-ink p-5 shadow-[4px_4px_0_var(--color-ink)]">
               <p className="text-lg font-extrabold">Sourcing VA Training Services</p>
-              <p className="text-xs font-semibold text-white/75">Payment Portal</p>
+              <p className="text-xs font-semibold text-ink/70">Payment Portal</p>
             </div>
             <nav className="mt-4 flex gap-2 overflow-x-auto lg:flex-col" aria-label="Payment portal navigation">
               {TABS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => setTab(id)}
-                  className={`flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition ${
-                    tab === id ? 'bg-brand-bright text-white shadow-md shadow-brand-bright/25' : 'bg-white text-body hover:bg-tint hover:text-brand'
+                  className={`flex shrink-0 items-center gap-3 rounded-2xl border-2 px-4 py-3 text-sm font-bold transition ${
+                    tab === id ? 'border-ink bg-accent text-ink shadow-[3px_3px_0_var(--color-ink)]' : 'border-transparent bg-white text-body hover:border-ink hover:text-ink'
                   }`}
                 >
                   <Icon className="size-5" /> {label}
@@ -189,9 +189,9 @@ export default function Checkout() {
             {tab === 'payment' && result && (
               <div className={`${card} space-y-8`}>
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <span className="grid size-16 shrink-0 place-items-center rounded-full bg-tint-3 text-brand"><CheckCircle2 className="size-9" /></span>
+                  <span className="grid size-16 shrink-0 place-items-center rounded-full border-2 border-ink bg-accent text-ink"><CheckCircle2 className="size-9" /></span>
                   <div>
-                    <p className="text-xs font-extrabold uppercase tracking-wider text-brand">Submission received</p>
+                    <p className="text-xs font-extrabold uppercase tracking-wider text-ink/70">Submission received</p>
                     <h1 className="mt-1 text-2xl font-extrabold md:text-3xl">Thank you! Your payment details were submitted.</h1>
                     <p className="mt-2 text-sm leading-6 text-body">Access will be available upon payment verification. Your receipt and access details will be sent to <b className="text-ink">{result.email}</b>.</p>
                     <p className="mt-3 rounded-xl bg-tint px-4 py-3 text-xs leading-5 text-body">
@@ -220,14 +220,14 @@ export default function Checkout() {
                       'If there is a mismatch, we will email you a payment verification update.',
                     ].map((t, i) => (
                       <li key={t} className="flex gap-3 text-sm leading-6 text-body">
-                        <span className="grid size-6 shrink-0 place-items-center rounded-full bg-brand-bright text-[11px] font-extrabold text-white">{i + 1}</span>{t}
+                        <span className="grid size-6 shrink-0 place-items-center rounded-full border-2 border-ink bg-accent text-ink text-[11px] font-extrabold">{i + 1}</span>{t}
                       </li>
                     ))}
                   </ol>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <button onClick={resetAll} className="rounded-full bg-brand-bright px-6 py-3 text-sm font-extrabold text-white transition hover:bg-brand">Submit Another Payment</button>
-                  <button onClick={() => setTab('contact')} className="rounded-full border-2 border-brand-bright px-6 py-3 text-sm font-extrabold text-brand transition hover:bg-tint">Contact Support</button>
+                  <button onClick={resetAll} className={cta.yellow}>Submit Another Payment</button>
+                  <button onClick={() => setTab('contact')} className={cta.white}>Contact Support</button>
                 </div>
                 <PolicyNote title="Final payment reminder">
                   Wrong course selection, wrong reference number, duplicate payment, underpayment, or overpayment may be declined, delayed, and may not be eligible for refund because the submitted payment must match the selected course amount exactly.
@@ -240,10 +240,14 @@ export default function Checkout() {
               <div className="space-y-6">
                 <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">Complete Your <span className="text-brand-bright">Payment</span></h1>
+                    <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">Complete Your{' '}
+                      <span className="relative inline-block">
+                        <span className="absolute inset-x-0 bottom-1 h-3 rounded bg-accent md:h-4" aria-hidden="true" />
+                        <span className="relative">Payment</span>
+                      </span></h1>
                     <p className="mt-2 max-w-2xl text-sm leading-6 text-body">Choose carefully. Your selected option becomes your declared purchase and exact payment amount for verification.</p>
                   </div>
-                  <span className="inline-flex w-fit items-center gap-2 rounded-full bg-tint-2 px-4 py-2 text-xs font-extrabold text-brand"><Lock className="size-3.5" /> Secure payment details</span>
+                  <span className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-ink bg-accent text-ink px-4 py-2 text-xs font-extrabold"><Lock className="size-3.5" /> Secure payment details</span>
                 </div>
 
                 {/* Option + QR */}
@@ -256,7 +260,7 @@ export default function Checkout() {
                   </Field>
 
                   {option && form.provider && (
-                    <div className="rounded-[1.5rem] border-2 border-dashed border-tint-3 p-5 md:p-8">
+                    <div className="rounded-[1.5rem] border-2 border-dashed border-ink/30 p-5 md:p-8">
                       <div className="mx-auto mb-6 max-w-md">
                         <PolicyNote title="Note">
                           Make sure to screenshot and upload the receipt below, along with the reference number.
@@ -266,10 +270,10 @@ export default function Checkout() {
                         {option.qrImage ? (
                           <>
                             <a href={option.qrImage} target="_blank" rel="noopener noreferrer" title="Open full-size QR">
-                              <img src={option.qrImage} alt={`QR code for ${option.name}`} className="w-full rounded-3xl shadow-[0_20px_50px_rgba(32,28,16,0.15)]" />
+                              <img src={option.qrImage} alt={`QR code for ${option.name}`} className="w-full rounded-3xl border-2 border-ink shadow-[6px_6px_0_var(--color-ink)]" />
                             </a>
                             <div className="mt-4 flex flex-col items-center gap-2">
-                              <a href={option.qrImage} download={`sourcing-va-${option.id}-qr.jpg`} className="inline-flex items-center gap-2 rounded-full bg-brand-bright px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-brand-bright/25 transition hover:bg-brand">
+                              <a href={option.qrImage} download={`sourcing-va-${option.id}-qr.jpg`} className={cta.yellow}>
                                 <Download className="size-4" /> Download QR
                               </a>
                               <p className="text-center text-xs text-muted">Scan with GCash, Maya, or any banking app via InstaPay. On mobile, download the QR and upload it in your app.</p>
@@ -286,10 +290,10 @@ export default function Checkout() {
                           {PAY_TO.gcashQr && (
                             <div>
                               <a href={PAY_TO.gcashQr} target="_blank" rel="noopener noreferrer" title="Open full-size GCash QR">
-                                <img src={PAY_TO.gcashQr} alt="GCash QR code" className="w-full rounded-3xl shadow-[0_20px_50px_rgba(32,28,16,0.15)]" />
+                                <img src={PAY_TO.gcashQr} alt="GCash QR code" className="w-full rounded-3xl border-2 border-ink shadow-[6px_6px_0_var(--color-ink)]" />
                               </a>
                               <div className="mt-4 flex flex-col items-center gap-2">
-                                <a href={PAY_TO.gcashQr} download="sourcing-va-gcash-qr.jpg" className="inline-flex items-center gap-2 rounded-full bg-brand-bright px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-brand-bright/25 transition hover:bg-brand">
+                                <a href={PAY_TO.gcashQr} download="sourcing-va-gcash-qr.jpg" className={cta.yellow}>
                                   <Download className="size-4" /> Download QR
                                 </a>
                                 <p className="text-center text-xs text-muted">Scan with GCash. On mobile, download the QR and upload it in GCash.</p>
@@ -298,40 +302,40 @@ export default function Checkout() {
                           )}
 
                           {/* GCash details card */}
-                          <div className="rounded-3xl bg-gradient-to-br from-brand-bright to-brand-deep p-6 text-white shadow-xl shadow-brand-deep/20">
+                          <div className="rounded-3xl border-2 border-ink bg-accent text-ink p-6 shadow-[6px_6px_0_var(--color-ink)]">
                             <div className="flex items-center gap-3">
-                              <img src="/gcash-logo.png" alt="GCash" className="size-14 rounded-2xl shadow-md" />
+                              <img src="/gcash-logo.png" alt="GCash" className="size-14 rounded-2xl border-2 border-ink" />
                               <p className="text-lg font-extrabold">GCash</p>
                             </div>
-                            <div className="mt-5 rounded-2xl bg-white/12 p-4">
-                              <p className="text-xs font-semibold text-white/70">GCash Number</p>
+                            <div className="mt-5 rounded-2xl border-2 border-ink bg-white p-4">
+                              <p className="text-xs font-semibold text-muted">GCash Number</p>
                               <div className="mt-1 flex flex-wrap items-center justify-between gap-3">
                                 <p className="text-2xl font-extrabold tracking-wider">{PAY_TO.gcashNumber}</p>
                                 <CopyButton value={PAY_TO.gcashNumber} />
                               </div>
                               {PAY_TO.gcashName && (
                                 <>
-                                  <p className="mt-3 text-xs font-semibold text-white/70">Account Name</p>
+                                  <p className="mt-3 text-xs font-semibold text-muted">Account Name</p>
                                   <p className="text-lg font-extrabold">{PAY_TO.gcashName}</p>
                                 </>
                               )}
-                              <p className="mt-3 text-xs font-semibold text-white/70">Amount</p>
-                              <p className="text-lg font-extrabold text-accent">{formatPeso(option.amount)}</p>
+                              <p className="mt-3 text-xs font-semibold text-muted">Amount</p>
+                              <p className="text-lg font-extrabold text-ink">{formatPeso(option.amount)}</p>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      <div className="mx-auto mt-8 max-w-md border-t border-tint-2 pt-6">
-                        <p className="text-xs font-extrabold uppercase tracking-wider text-brand">Selected option</p>
+                      <div className="mx-auto mt-8 max-w-md border-t-2 border-ink/10 pt-6">
+                        <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Selected option</p>
                         <p className="mt-1 text-xl font-extrabold">{option.name}</p>
                         <p className="mt-3 text-xs font-semibold text-muted">Exact amount to pay</p>
                         <div className="flex flex-wrap items-center gap-3">
-                          <p className="text-4xl font-extrabold text-brand">{formatPeso(option.amount)}</p>
+                          <p className="text-4xl font-extrabold text-ink">{formatPeso(option.amount)}</p>
                           {option.originalAmount > option.amount && (
                             <>
                               <span className="text-lg font-bold text-muted line-through">{formatPeso(option.originalAmount)}</span>
-                              <span className="rounded-full bg-accent px-3 py-1 text-xs font-extrabold text-accent-ink">
+                              <span className="rounded-full border-2 border-ink bg-accent text-ink px-3 py-0.5 text-xs font-extrabold">
                                 {Math.round((1 - option.amount / option.originalAmount) * 100)}% OFF
                               </span>
                             </>
@@ -361,7 +365,7 @@ export default function Checkout() {
                 {/* Details form */}
                 <div className={card}>
                   <div className="flex items-center gap-3">
-                    <span className="grid size-10 place-items-center rounded-xl bg-brand-bright text-white"><Wallet className="size-5" /></span>
+                    <span className="grid size-10 place-items-center rounded-xl border-2 border-ink bg-accent text-ink"><Wallet className="size-5" /></span>
                     <div>
                       <h2 className="text-xl font-extrabold">Payment Details</h2>
                       <p className="text-sm text-body">Please fill in your details and upload your payment proof.</p>
@@ -403,9 +407,9 @@ export default function Checkout() {
 
                     <div className="md:col-span-2">
                       <span className="mb-2 block text-sm font-bold text-ink">Payment Proof / Screenshot<span className="text-red-500"> *</span></span>
-                      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-tint-3 bg-tint/50 px-4 py-8 text-center transition hover:border-brand-bright hover:bg-tint">
-                        <Upload className="size-7 text-brand-bright" />
-                        <span className="text-sm font-extrabold text-brand">{file ? 'Change file' : 'Click to upload your proof'}</span>
+                      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-ink/30 bg-tint px-4 py-8 text-center transition hover:border-ink hover:bg-tint-2">
+                        <Upload className="size-7 text-ink" />
+                        <span className="text-sm font-extrabold text-ink">{file ? 'Change file' : 'Click to upload your proof'}</span>
                         <span className="text-xs text-muted">Accepted formats: JPG, PNG, WEBP, PDF. Max 5MB.</span>
                         <input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={onFile} className="sr-only" />
                       </label>
@@ -413,7 +417,7 @@ export default function Checkout() {
                       <div className="mt-3 flex items-center gap-3 rounded-2xl bg-tint px-4 py-3 text-sm text-body">
                         {file ? (
                           <>
-                            {previewUrl ? <img src={previewUrl} alt="Proof preview" className="size-14 rounded-xl object-cover" /> : <FileText className="size-8 text-brand" />}
+                            {previewUrl ? <img src={previewUrl} alt="Proof preview" className="size-14 rounded-xl object-cover" /> : <FileText className="size-8 text-ink" />}
                             <span className="min-w-0 flex-1 truncate font-semibold text-ink">{file.name}</span>
                             <span className="text-xs text-muted">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                             <button type="button" onClick={() => setFile(null)} aria-label="Remove file" className="grid size-8 place-items-center rounded-full hover:bg-tint-2"><X className="size-4" /></button>
@@ -425,7 +429,7 @@ export default function Checkout() {
                     {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 md:col-span-2">{error}</p>}
 
                     <div className="md:col-span-2">
-                      <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-bright py-4 text-sm font-extrabold text-white shadow-lg shadow-brand-bright/25 transition hover:bg-brand">
+                      <button type="submit" className={`${cta.yellow} w-full py-4`}>
                         <Send className="size-4" /> Submit Payment
                       </button>
                       <p className="mt-3 text-center text-xs leading-5 text-muted"><span className="text-red-500">*</span> All fields are required. Before submitting, confirm that you selected the correct payment option and paid the exact amount shown. Sender/payer name is not used for matching.</p>
@@ -441,13 +445,13 @@ export default function Checkout() {
                 <h1 className="text-3xl font-extrabold">How to Pay</h1>
                 <ol className="mt-6 space-y-4">
                   {HOW_TO_PAY.map(([t, d], i) => (
-                    <li key={t} className="flex gap-4 rounded-2xl bg-tint p-4">
-                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-bright font-extrabold text-white">{i + 1}</span>
+                    <li key={t} className="flex gap-4 rounded-2xl border-2 border-ink bg-tint-2 p-4">
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl border-2 border-ink bg-accent text-ink font-extrabold">{i + 1}</span>
                       <p className="text-sm leading-6 text-body"><strong className="text-ink">{t}</strong> {d}</p>
                     </li>
                   ))}
                 </ol>
-                <button onClick={() => setTab('payment')} className="mt-6 rounded-full bg-brand-bright px-6 py-3 text-sm font-extrabold text-white transition hover:bg-brand">Go to Payment</button>
+                <button onClick={() => setTab('payment')} className={`${cta.yellow} mt-6`}>Go to Payment</button>
               </div>
             )}
 
@@ -455,13 +459,13 @@ export default function Checkout() {
             {tab === 'faq' && (
               <div className={card}>
                 <h1 className="text-3xl font-extrabold">FAQs</h1>
-                <div className="mt-6 space-y-4">
+                <div className="mt-6 space-y-3.5">
                   {FAQS.map(([q, a], i) => (
-                    <details key={q} open={i === 0} className="group border-b border-line pb-4">
-                      <summary className="flex cursor-pointer list-none items-center justify-between py-2 text-sm font-bold [&::-webkit-details-marker]:hidden">
-                        {q} <span className="text-xl leading-none text-brand-bright transition group-open:rotate-45">+</span>
+                    <details key={q} open={i === 0} className="group overflow-hidden rounded-2xl border-2 border-ink bg-white">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-sm font-bold [&::-webkit-details-marker]:hidden">
+                        {q} <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent text-lg font-bold leading-none transition-transform duration-300 group-open:rotate-45">+</span>
                       </summary>
-                      <p className="mt-2 text-sm leading-6 text-body">{a}</p>
+                      <p className="px-5 pb-5 text-sm leading-6 text-body">{a}</p>
                     </details>
                   ))}
                 </div>
@@ -473,11 +477,11 @@ export default function Checkout() {
               <div className={card}>
                 <h1 className="text-3xl font-extrabold">Contact Us</h1>
                 <p className="mt-3 text-sm leading-6 text-body">For payment concerns, contact the Sourcing VA Training Services support team and include your reference number, payment option, and proof of payment.</p>
-                <div className="mt-6 flex items-center gap-4 rounded-2xl bg-tint p-5">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-bright text-white"><Mail className="size-6" /></span>
+                <div className="mt-6 flex items-center gap-4 rounded-2xl border-2 border-ink bg-tint-2 p-5">
+                  <span className="grid size-12 place-items-center rounded-xl border-2 border-ink bg-accent text-ink"><Mail className="size-6" /></span>
                   <div>
                     <p className="text-sm font-extrabold">Email Support</p>
-                    {SUPPORT_EMAIL ? <a href={`mailto:${SUPPORT_EMAIL}`} className="text-sm font-semibold text-brand hover:underline">{SUPPORT_EMAIL}</a> : <p className="text-sm text-muted">Coming soon</p>}
+                    {SUPPORT_EMAIL ? <a href={`mailto:${SUPPORT_EMAIL}`} className="text-sm font-semibold text-ink underline">{SUPPORT_EMAIL}</a> : <p className="text-sm text-muted">Coming soon</p>}
                   </div>
                 </div>
               </div>
@@ -489,15 +493,15 @@ export default function Checkout() {
       {/* ===== FINAL REVIEW DIALOG ===== */}
       {reviewOpen && option && (
         <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-ink/50 p-4 backdrop-blur-sm" onClick={() => !submitting && setReviewOpen(false)}>
-          <div className="w-full max-w-lg rounded-[2rem] bg-white p-6 md:p-8" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="review-title">
+          <div className="w-full max-w-lg rounded-3xl border-2 border-ink bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] md:p-8" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="review-title">
             <div className="flex gap-4">
-              <span className="grid size-12 shrink-0 place-items-center rounded-full bg-tint-3 text-brand"><ShieldCheck className="size-6" /></span>
+              <span className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-ink bg-accent text-ink"><ShieldCheck className="size-6" /></span>
               <div>
                 <h3 id="review-title" className="text-xl font-extrabold">Final payment confirmation</h3>
                 <p className="mt-1 text-sm leading-6 text-body">Please double-check your selected course, exact amount, reference number, and email before submitting.</p>
               </div>
             </div>
-            <dl className="mt-6 divide-y divide-tint-2 rounded-2xl bg-tint px-5 text-sm">
+            <dl className="mt-6 divide-y divide-ink/10 rounded-2xl border-2 border-ink bg-tint px-5 text-sm">
               {[
                 ['Payment option', option.name],
                 ['Exact amount', formatPeso(option.amount)],
@@ -514,12 +518,12 @@ export default function Checkout() {
               ))}
             </dl>
             <label className="mt-5 flex cursor-pointer gap-3 text-xs leading-5 text-body">
-              <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-brand-bright" />
+              <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-ink" />
               I confirm that I selected the correct course/payment option, paid the exact required amount, and understand that wrong course selection or wrong amount may be declined, delayed, or not eligible for refund.
             </label>
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row">
-              <button onClick={() => setReviewOpen(false)} disabled={submitting} className="flex-1 rounded-full border-2 border-brand-bright py-3 text-sm font-extrabold text-brand transition hover:bg-tint disabled:opacity-60">Go Back</button>
-              <button onClick={submit} disabled={!agreed || submitting} className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brand-bright py-3 text-sm font-extrabold text-white transition hover:bg-brand disabled:cursor-not-allowed disabled:opacity-50">
+              <button onClick={() => setReviewOpen(false)} disabled={submitting} className={`${cta.white} flex-1 disabled:opacity-60`}>Go Back</button>
+              <button onClick={submit} disabled={!agreed || submitting} className={`${cta.yellow} flex-1 disabled:cursor-not-allowed disabled:opacity-50`}>
                 {submitting ? <><Loader2 className="size-4 animate-spin" /> Submitting...</> : 'Confirm and Submit'}
               </button>
             </div>
