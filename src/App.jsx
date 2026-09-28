@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Landing from './pages/Landing.jsx'
+import About from './pages/About.jsx'
 import Pricing from './pages/Pricing.jsx'
 import Checkout from './pages/Checkout.jsx'
 import CheckoutSuccess from './pages/CheckoutSuccess.jsx'
@@ -19,6 +20,7 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/about" element={<About />} />
         <Route path="/subscription" element={<Pricing />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkout/success" element={<CheckoutSuccess />} />

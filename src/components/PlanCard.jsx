@@ -8,7 +8,7 @@ export const amazonVaPlan = {
   price: '₱1,299',
   originalPrice: '₱2,362',
   discount: '45% OFF',
-  suffix: '/month',
+  suffix: '',
   savings: "What's included",
   button: 'Join Now',
   features: [

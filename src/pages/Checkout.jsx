@@ -159,7 +159,7 @@ export default function Checkout() {
     <Page footer={<Footer copyright="© 2026 Sourcing VA Training Services. All rights reserved." />}>
       <section className="mx-auto max-w-[1280px] px-6 py-10 md:px-8 md:py-14">
         <Link to="/subscription" className="inline-flex items-center gap-2 text-sm font-bold text-ink hover:underline">
-          <ArrowLeft className="size-4" /> Back to Join the Training
+          <ArrowLeft className="size-4" /> Back to Courses
         </Link>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[240px_1fr]">

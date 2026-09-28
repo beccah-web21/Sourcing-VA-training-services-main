@@ -4,7 +4,8 @@ import { Bell, Menu, X } from 'lucide-react'
 
 const navLinks = [
   { text: 'Home', link: '/' },
-  { text: 'Join the Training', link: '/subscription' },
+  { text: 'About Us', link: '/about' },
+  { text: 'Courses', link: '/subscription' },
 ]
 
 // Shared button styles — every button on the site is yellow

@@ -1,22 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  ArrowRight, BookOpen, ShieldCheck, Wrench, Tag, Calculator, Briefcase,
-  Check, Plus, Quote, Laptop, MonitorPlay, BriefcaseBusiness, GraduationCap,
-  CalendarDays, CirclePlay, Users, User, ClipboardCheck, Crown,
+  ArrowRight, BookOpen, SearchCheck, Rocket,
+  Plus, Quote, Laptop, MonitorPlay, BriefcaseBusiness, GraduationCap,
+  CalendarDays, CirclePlay, Users, User, ClipboardCheck, Crown, Play, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import { Page, cta, card } from '../components/Layout.jsx'
 import EditableImage from '../components/EditableImage.jsx'
+import { amazonVaPlan } from '../components/PlanCard.jsx'
 
 // Placeholder content — swap bracketed text (testimonials, prices, contact info) for real details before launch.
 
-const learn = [
-  { title: 'Get the Basics Down', description: 'Learn how Online Arbitrage works and understand the role of a product researcher.', icon: BookOpen },
-  { title: 'Know Who You Can Trust', description: 'Learn how to identify safe and reliable suppliers and retailers for your product research.', icon: ShieldCheck },
-  { title: 'Make Product Hunting Easier', description: 'Get hands-on with SellerAmp, Keepa, and other sourcing tools and extensions to find and research products faster.', icon: Wrench },
-  { title: 'Sharpen Your Sourcing Skills', description: 'Learn different Sourcing Methods, understand Keepa charts, and find the Buy Box price with confidence.', icon: Tag },
-  { title: 'Find Out If It’s a Good Deal', description: 'Learn to calculate profit, and ROI using SellerAmp, and see if a product hits your deal criteria.', icon: Calculator },
-  { title: 'Take Your Skills to the Next Level', description: 'After the 3-day live training, put your skills into practice with a 1-week Amazon US internship, followed by career preparation to help you get ready for real opportunities.', icon: Briefcase },
+const challengeDays = [
+  { day: 'Day 1', icon: BookOpen, modules: [[1, 'Amazon VA Fundamentals'], [2, 'Research Essentials'], [3, 'Research Tools']] },
+  { day: 'Day 2', icon: SearchCheck, modules: [[4, 'Sourcing Methods'], [5, 'Product Analysis']] },
+  { day: 'Day 3', icon: Rocket, modules: [[7, 'Advanced Sourcing'], [8, 'Practical Assessment'], [9, 'Getting Ready for Your 1-Week Amazon US Internship']] },
 ]
 
 const highlights = [
@@ -35,24 +33,28 @@ const courseHighlights = [
   { title: '30-Day Access', detail: 'to SellerAmp Premium Login', icon: Crown },
 ]
 
-const testimonials = [
-  { initial: 'A', name: '[Student name]', role: '[Role / location]', quote: '[Real student feedback goes here.]' },
-  { initial: 'B', name: '[Student name]', role: '[Role / location]', quote: '[Real student feedback goes here.]' },
-  { initial: 'C', name: '[Student name]', role: '[Role / location]', quote: '[Real student feedback goes here.]' },
+// youtubeId is the part after "watch?v=" in a YouTube link; leave it empty to show a "coming soon" card
+const videos = [
+  { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
+  { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
+  { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
 ]
 
-const tiers = [
-  { name: 'Self-Paced', tagline: 'Learn on your own schedule', price: { onetime: '[₱X,XXX]', plan: '[₱X,XXX]/mo × 3' }, features: ['All 4 core modules', 'Templates & trackers vault', 'Lifetime curriculum updates', 'Private community access'] },
-  { name: 'Guided Mastery', tagline: 'Most students choose this', price: { onetime: '[₱XX,XXX]', plan: '[₱X,XXX]/mo × 4' }, features: ['Everything in Self-Paced', 'Weekly live Q&A sessions', 'Homework & submission reviews', 'Priority community support'], featured: true },
-  { name: 'VIP Mentorship', tagline: 'For hands-on 1:1 support', price: { onetime: '[₱XX,XXX]', plan: '[₱X,XXX]/mo × 6' }, features: ['Everything in Guided Mastery', '[X] private 1:1 coaching calls', 'Personal sourcing plan review', 'Direct mentor messaging'] },
+const testimonials = [
+  { initial: 'J', photo: '/testimonial-janrie.jpg', name: 'Janrie Diamante', role: 'Batch 1 Trainee', quote: 'I completed their Amz program, and it was a great learning experience. I learned how to properly analyze products, competition, demand, and other important factors. It gave me a better understanding. Definitely worth it for anyone who is interested in learning. 🤙🏼' },
+  { initial: 'G', photo: '/testimonial-gemma.jpg', name: 'Gemma Ladia', role: 'Batch 2 Trainee', quote: 'Thank you so much, Coach, sa 3-day Amazon Product Research training!\nSa una, nakakalito lang talaga kasi bago sa akin yung process, lalo na sa pag-check ng products, Keepa chart, Buy Box, at pag-analyze ng mga numbers. Pero after the training, na-realize ko na practice lang talaga. Habang paulit-ulit mong ginagawa at hinahanap yung products, mas nagiging familiar ka rin at makukuha mo rin siya eventually.' },
+  { initial: 'J', photo: '/testimonial-jason.jpg', name: 'Jason Rosales', role: 'Batch 3 Trainee', quote: 'The course is good for those who want to start building a foundation ng pagiging Amazon Online Arbitrage Product Researcher, whether from zero or may kaunting knowledge na. As someone who has watched a lot of YouTube videos about becoming an Amazon Product Researcher before enrolling in this course, I can say na mas na-solidify ang foundations ko after taking it 😁' },
+  { initial: 'S', photo: '/testimonial-sarah.jpg', name: 'Sarah Caraballe Allou', role: 'Batch 3 Trainee', quote: 'The course training is very Beginner friendly.' },
+  { initial: 'S', photo: '/testimonial-sai.jpg', name: 'Sai Nav', role: 'Batch 1 Trainee', quote: 'Sourcing VA 101 is great, i learned a lot of new things and gain new knowledge about sourcing. This is good for people who want to learn about product sourcing, i highly recommend it ❤️❤️' },
+  { initial: 'B', photo: '/testimonial-bembem.jpg', name: 'Bembem Emnace Navaja', role: 'Batch 2 Trainee', quote: 'I’m very grateful for the opportunity to be part of this Product Researcher training. The training was very informative and helped me understand the fundamentals and process of product research more clearly.\nI learned valuable skills such as finding potential products, analyzing product opportunities, checking competition, and understanding important factors to consider when doing product research.' },
 ]
 
 const faqs = [
-  { q: 'Do I need experience to join?', a: 'No. The masterclass starts from the basics and builds up step by step.' },
-  { q: 'How long is the course?', a: '[e.g. 4 weeks, at your own pace.]' },
-  { q: 'Is it live or recorded?', a: '[Describe your format.]' },
-  { q: 'Do I get a certificate?', a: 'Students who complete all modules receive a certificate of completion.' },
-  { q: 'How do I pay?', a: 'GCash, Maya, bank transfer, or card — choose your option at checkout.' },
+  { q: 'Do I need experience to join?', a: 'No experience needed! This training is beginner-friendly and designed to help you build practical skills from the ground up. All you need is a working laptop or PC, a headset, and a webcam to participate in the live training.' },
+  { q: 'How long is the course?', a: 'The training is a 3-day live program, held from 7:30 PM–10:30 PM each day. That’s 3 hours per day and 9 hours of focused, hands-on training designed to help you build practical skills with confidence.' },
+  { q: 'Is it live or recorded?', a: 'The main training is live, allowing you to learn directly with the trainer and ask questions along the way. Recorded lessons are also available through our Skool community for self-paced learning.' },
+  { q: 'Do I get a certificate?', a: 'Yes! You’ll receive a certificate of completion after successfully completing the training.' },
+  { q: 'How do I pay?', a: 'Pay securely via GCash, Maya, bank transfer, or card. Simply choose your preferred payment option at checkout.' },
 ]
 
 // Fade-up on scroll; shows immediately when reduced motion is preferred
@@ -102,6 +104,90 @@ function Accordion({ items }) {
         )
       })}
     </div>
+  )
+}
+
+// Shows the YouTube thumbnail until clicked, so the page doesn't load three players up front
+function VideoCard({ youtubeId, title, description, featured }) {
+  const [playing, setPlaying] = useState(false)
+  return (
+    <Reveal className={`${card} flex flex-col overflow-hidden ${featured ? 'md:col-span-2' : ''}`}>
+      <div className="relative aspect-video border-b-2 border-ink bg-tint-3">
+        {!youtubeId ? (
+          <div className="grid size-full place-items-center text-center">
+            <div>
+              <CirclePlay className="mx-auto size-12 text-ink/40" strokeWidth={1.5} />
+              <p className="mt-2 text-sm font-bold text-muted">Video coming soon</p>
+            </div>
+          </div>
+        ) : playing ? (
+          <iframe
+            className="absolute inset-0 size-full"
+            src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <button onClick={() => setPlaying(true)} className="group absolute inset-0" aria-label={`Play video: ${title}`}>
+            <img src={`https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`} alt="" className="size-full object-cover" />
+            <span className="absolute left-1/2 top-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-ink bg-accent shadow-[3px_3px_0_var(--color-ink)] transition group-hover:scale-110">
+              <Play className="ml-1 size-7 fill-ink text-ink" />
+            </span>
+          </button>
+        )}
+      </div>
+      <div className={featured ? 'p-7 md:p-8' : 'p-6'}>
+        <h3 className={`mb-2 font-bold text-ink ${featured ? 'text-2xl' : 'text-lg'}`}>{title}</h3>
+        <p className="text-[15px] text-body">{description}</p>
+      </div>
+    </Reveal>
+  )
+}
+
+// Horizontal scroll-snap row: 1 card visible on phones, 2 on tablets, 3 on desktop
+function Carousel({ label, children }) {
+  const track = useRef(null)
+  const [edges, setEdges] = useState({ start: true, end: false })
+
+  const update = () => {
+    const el = track.current
+    if (!el) return
+    setEdges({ start: el.scrollLeft <= 4, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4 })
+  }
+  useEffect(() => {
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  // Scroll by one card (first child's width plus the gap)
+  const go = (dir) => {
+    const el = track.current
+    const step = (el.firstElementChild?.offsetWidth ?? el.clientWidth) + 24
+    el.scrollBy({ left: dir * step, behavior: 'smooth' })
+  }
+
+  const arrow = 'grid size-12 place-items-center rounded-full border-2 border-ink bg-accent text-ink shadow-[3px_3px_0_var(--color-ink)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-white disabled:opacity-40 disabled:hover:translate-y-0'
+  return (
+    <Reveal role="region" aria-roledescription="carousel" aria-label={label}>
+      {/* padding keeps the cards' offset shadows from being clipped */}
+      <div
+        ref={track}
+        onScroll={update}
+        className="-mx-2 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-2 pb-4 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[85%] [&>*]:shrink-0 [&>*]:snap-start md:[&>*]:w-[calc((100%-24px)/2)] lg:[&>*]:w-[calc((100%-48px)/3)]"
+      >
+        {children}
+      </div>
+      <div className="mt-6 flex justify-center gap-4">
+        <button onClick={() => go(-1)} disabled={edges.start} className={arrow} aria-label="Previous">
+          <ChevronLeft className="size-6" strokeWidth={2.5} />
+        </button>
+        <button onClick={() => go(1)} disabled={edges.end} className={arrow} aria-label="Next">
+          <ChevronRight className="size-6" strokeWidth={2.5} />
+        </button>
+      </div>
+    </Reveal>
   )
 }
 
@@ -161,25 +247,83 @@ function HeroIllustration() {
   )
 }
 
+// Lucide has no brand icons, so these are drawn inline. Replace each '#' with the real profile URL.
+const socials = [
+  {
+    name: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61592055077493',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
+        <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Instagram',
+    href: '#',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+        <circle cx="12" cy="12" r="4.2" />
+        <circle cx="17.4" cy="6.6" r="0.6" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    name: 'TikTok',
+    href: 'https://www.tiktok.com/@arbitrageva101',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+      </svg>
+    ),
+  },
+]
+
 function SiteFooter() {
-  const explore = [['Courses', '#learn'],['Testimonials', '#testimonials'], ['FAQ', '#faq']]
+  const explore = [['About Us', '/about'], ['Courses', '#learn'], ['Videos', '#videos'], ['Testimonials', '#testimonials'], ['FAQ', '#faq']]
   return (
-    <footer className="bg-white px-5 pb-8 pt-16">
+    <footer className="bg-tint-3 px-5 pb-8 pt-16">
       <div className="mx-auto max-w-[1200px]">
         <div className="mb-10 grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
-          <div>
-            <p className="text-base font-extrabold text-ink">Sourcing VA Training Services</p>
-            <p className="mt-3 max-w-xs text-body">Helping Filipino VAs master product research and build careers from home.</p>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+            {/* Same crop as the header logo: scaled up so the orange frame falls outside the circle */}
+            <span className="size-28 shrink-0 overflow-hidden rounded-full border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] md:size-32">
+              <img src="/logo.jpg" alt="Sourcing VA Training Services logo" className="size-full scale-[1.3] object-cover" />
+            </span>
+            <div>
+              <p className="text-2xl font-extrabold leading-tight text-ink">Sourcing VA Training Services</p>
+              <p className="mt-3 max-w-xs text-body">Helping Filipino VAs master product research and build careers from home.</p>
+              <ul className="mt-5 flex gap-3">
+                {socials.map(({ name, href, icon }) => (
+                  <li key={name}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={name}
+                      className="grid size-11 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-[3px_3px_0_var(--color-ink)] transition hover:-translate-y-0.5 hover:bg-accent"
+                    >
+                      {icon}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div>
-            <h4 className="mb-3 font-bold text-ink">Explore</h4>
+            <h4 className="mb-4 text-xl font-extrabold text-ink">Quick Links</h4>
             <ul className="space-y-2 text-body">
-              {explore.map(([t, h]) => <li key={t}><a href={h} className="hover:text-ink">{t}</a></li>)}
+              {explore.map(([t, h]) => <li key={t}><a href={h} className="underline-offset-4 transition-colors hover:text-orange-700 hover:underline">{t}</a></li>)}
             </ul>
           </div>
           <div>
-            <h4 className="mb-3 font-bold text-ink">Contact</h4>
-            <ul className="space-y-2 text-body"><li>[your@email.com]</li><li>[Facebook page]</li><li>Philippines</li></ul>
+            <h4 className="mb-4 text-xl font-extrabold text-ink">Contact Info</h4>
+            <ul className="space-y-2 text-body">
+              <li><a href="mailto:arbiscouttraininghub.ph@gmail.com" className="break-all hover:text-ink">arbiscouttraininghub.ph@gmail.com</a></li>
+              <li><a href={socials[0].href} target="_blank" rel="noopener noreferrer" className="hover:text-ink">Sourcing VA Training Services</a></li>
+              <li>Puerto Princesa City, Palawan, Philippines</li>
+            </ul>
           </div>
         </div>
         <p className="border-t border-line pt-6 text-center text-sm text-muted">
@@ -191,8 +335,6 @@ function SiteFooter() {
 }
 
 export default function Landing() {
-  const [billing, setBilling] = useState('onetime')
-
   return (
     <Page footer={<SiteFooter />}>
       {/* HERO */}
@@ -240,27 +382,48 @@ export default function Landing() {
         </svg>
       </section>
 
-      {/* WHAT YOU'LL LEARN */}
-      <section id="learn" className="scroll-mt-20 bg-tint-2 px-5 pb-24 pt-10">
+      {/* WHAT'S INCLUDED IN THE 3-DAY CHALLENGE */}
+      <section id="learn" className="scroll-mt-20 bg-tint-2 px-5 pb-24 pt-10 text-ink">
         <div className="mx-auto max-w-[1200px]">
-          <SectionHead
-            eyebrow="The Masterclass"
-            title="What You'll Learn in the Product Research Masterclass"
-            sub="Step-by-step skills you can use on real client work, even if you're starting from zero."
-          />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {learn.map(({ title, description, icon: Icon }, i) => (
-              <Reveal key={title} className={`${card} p-7 hover:-translate-y-1`}>
-                <div className="mb-4 flex items-start justify-between">
-                  <span className="grid size-13 place-items-center rounded-xl border-2 border-ink bg-accent">
-                    <Icon className="size-6 text-ink" strokeWidth={2.2} />
+          <Reveal className="mb-16 grid gap-6 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div>
+              <Eyebrow>The Masterclass</Eyebrow>
+              <h2 className="text-3xl font-extrabold leading-tight md:text-5xl">
+                What's Included in the{' '}
+                <span className="relative inline-block">
+                  <span className="absolute inset-x-0 bottom-1 h-3 rounded bg-accent md:h-4" aria-hidden="true" />
+                  <span className="relative">3-Day Challenge</span>
+                </span>
+              </h2>
+            </div>
+            <p className="text-lg leading-relaxed text-body">
+              Step-by-step skills you can use on real client work, even if you're starting from zero. Over three days of live training, you'll go from Amazon VA fundamentals to a practical assessment and getting ready for your 1-week Amazon US internship.
+            </p>
+          </Reveal>
+
+          <div className="relative">
+            {/* Dashed wave linking the day circles; circle centers sit at 1/6, 1/2 and 5/6 of the width (desktop only) */}
+            <svg className="absolute inset-x-0 top-0 hidden h-[200px] w-full lg:block" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M100,56 C200,56 200,152 300,152 C400,152 400,56 500,56" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeDasharray="8 8" vectorEffect="non-scaling-stroke" />
+            </svg>
+            <ol className="relative grid gap-14 lg:grid-cols-3 lg:gap-10">
+              {challengeDays.map(({ day, icon: Icon, modules }, i) => (
+                <Reveal as="li" key={day} className={`flex flex-col items-center text-center ${i % 2 ? 'lg:mt-24' : ''}`}>
+                  <span className="grid size-28 place-items-center rounded-full border-2 border-ink bg-accent shadow-[4px_4px_0_var(--color-ink),0_0_0_10px_var(--color-tint-2)]">
+                    <Icon className="size-12 text-ink" strokeWidth={1.6} />
                   </span>
-                  <span className="text-3xl font-extrabold text-tint-3 [-webkit-text-stroke:1.5px_var(--color-ink)]">0{i + 1}</span>
-                </div>
-                <h3 className="mb-2 text-lg font-bold text-ink">{title}</h3>
-                <p className="text-[15px] text-body">{description}</p>
-              </Reveal>
-            ))}
+                  <h3 className="mt-6 text-2xl font-extrabold">{day}</h3>
+                  <ul className="mt-4 w-full max-w-xs space-y-2.5">
+                    {modules.map(([num, name]) => (
+                      <li key={num} className="flex items-center gap-3 rounded-xl border-2 border-ink bg-white px-4 py-2.5 text-left shadow-[3px_3px_0_var(--color-ink)]">
+                        <span className="shrink-0 rounded-full border-2 border-ink bg-accent px-2.5 py-0.5 text-xs font-extrabold text-ink">M{num}</span>
+                        <span className="font-semibold text-ink">{name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
@@ -277,6 +440,17 @@ export default function Landing() {
             </Reveal>
           ))}
         </ul>
+      </section>
+
+      {/* VIDEOS */}
+      <section id="videos" className="scroll-mt-20 bg-white px-5 py-24">
+        <div className="mx-auto max-w-[1200px]">
+          <SectionHead eyebrow="Watch" title="See the training in action" sub="[Short line introducing the videos below.]" />
+          {/* First video is the featured one across the full width; the rest sit two per row below it */}
+          <div className="mx-auto grid max-w-[1000px] gap-6 md:grid-cols-2">
+            {videos.map((v, i) => <VideoCard key={i} {...v} featured={i === 0} />)}
+          </div>
+        </div>
       </section>
 
       {/* CURRICULUM */}
@@ -310,6 +484,16 @@ export default function Landing() {
               <p className="mt-4 text-body">
                 Learn proven strategies and get hands-on with industry tools to find profitable products, analyze market demand, and build a successful Amazon business.
               </p>
+              {/* Price comes from the shared plan so it always matches the Enroll card */}
+              <div className="mt-5 rounded-2xl border-2 border-ink bg-tint px-5 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg font-bold text-muted line-through">{amazonVaPlan.originalPrice}</span>
+                  <span className="rounded-full border-2 border-ink bg-accent px-3 py-0.5 text-xs font-extrabold text-ink">{amazonVaPlan.discount}</span>
+                </div>
+                <p className="mt-1 text-ink">
+                  <span className="text-4xl font-extrabold">{amazonVaPlan.price}</span>
+                </p>
+              </div>
               <ul className="mt-5 divide-y divide-ink/10">
                 {courseHighlights.map(({ title, detail, icon: Icon }) => (
                   <li key={title} className="flex items-center gap-4 py-2.5">
@@ -335,73 +519,25 @@ export default function Landing() {
       <section id="testimonials" className="scroll-mt-20 bg-tint-2 px-5 py-24">
         <div className="mx-auto max-w-[1200px]">
           <SectionHead eyebrow="Student stories" title="What our students say" />
-          <div className="grid gap-6 md:grid-cols-3">
+          <Carousel label="Student reviews">
             {testimonials.map((t, i) => (
-              <Reveal key={i} className={`${card} flex flex-col gap-4 p-7`}>
+              <div key={i} className={`${card} flex flex-col gap-4 p-7`}>
                 <Quote className="size-7 fill-accent text-ink" strokeWidth={1.5} />
-                <p className="italic text-ink">"{t.quote}"</p>
+                <p className="whitespace-pre-line italic text-ink">"{t.quote}"</p>
                 <div className="mt-auto flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-full border-2 border-ink bg-accent font-bold text-ink">{t.initial}</span>
+                  {t.photo ? (
+                    <img src={t.photo} alt={t.name} className="size-11 shrink-0 rounded-full border-2 border-ink object-cover" />
+                  ) : (
+                    <span className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-ink bg-accent font-bold text-ink">{t.initial}</span>
+                  )}
                   <div>
                     <strong className="block text-ink">{t.name}</strong>
                     <small className="text-muted">{t.role}</small>
                   </div>
                 </div>
-              </Reveal>
+              </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section id="pricing" className="scroll-mt-20 bg-white px-5 py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <SectionHead eyebrow="Enroll" title="Start learning today" sub="One masterclass, three ways to learn it. [Add guarantee or enrollment-deadline messaging here.]" />
-
-          <div className="mb-12 flex justify-center">
-            <div className="inline-flex rounded-full border-2 border-ink bg-white p-1">
-              {[['onetime', 'One-Time'], ['plan', 'Payment Plan']].map(([id, label]) => (
-                <button
-                  key={id}
-                  onClick={() => setBilling(id)}
-                  className={`rounded-full px-5 py-2 text-sm font-bold transition ${billing === id ? 'bg-accent text-ink' : 'text-body hover:text-ink'}`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid items-stretch gap-8 md:grid-cols-3">
-            {tiers.map((tier) => (
-              <Reveal
-                key={tier.name}
-                className={`relative flex flex-col rounded-3xl border-2 border-ink p-8 shadow-[8px_8px_0_var(--color-ink)] ${tier.featured ? 'bg-accent' : 'bg-white'}`}
-              >
-                {tier.featured && (
-                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-ink bg-white px-4 py-0.5 text-sm font-bold text-ink">
-                    Most Popular
-                  </span>
-                )}
-                <h3 className="text-xl font-extrabold text-ink">{tier.name}</h3>
-                <p className={tier.featured ? 'text-ink/75' : 'text-muted'}>{tier.tagline}</p>
-                <p className="my-4 text-4xl font-extrabold text-ink">{tier.price[billing]}</p>
-                <ul className="mb-8 flex-1 space-y-2.5">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex gap-2.5 text-ink">
-                      <span className={`grid size-6 shrink-0 place-items-center rounded-full border-2 border-ink ${tier.featured ? 'bg-white' : 'bg-accent'}`}>
-                        <Check className="size-3.5" strokeWidth={3.5} />
-                      </span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/checkout" className={`${tier.featured ? cta.white : cta.yellow} w-full`}>
-                  Enroll Now <ArrowRight className="size-4" />
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+          </Carousel>
         </div>
       </section>
 
@@ -416,17 +552,15 @@ export default function Landing() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-white px-5 py-24">
-        <Reveal className="relative mx-auto max-w-[1200px] overflow-hidden rounded-3xl border-2 border-ink bg-accent px-6 py-16 text-center shadow-[8px_8px_0_var(--color-ink)] md:rounded-[2rem] md:py-20">
-          <div className="absolute -right-20 -top-28 size-72 rounded-full bg-white/40" aria-hidden="true" />
-          <div className="absolute -bottom-24 -left-16 size-56 rounded-full bg-white/30" aria-hidden="true" />
-          <div className="relative">
-            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">Ready to start your VA career?</h2>
-            <p className="mx-auto mb-8 mt-3 max-w-lg text-ink/80">Learn product research from home and build a skill Amazon sellers are looking for.</p>
-            <Link to="/checkout" className={cta.whiteRaised}>
-              Enroll in the Masterclass <ArrowRight className="size-4" />
-            </Link>
-          </div>
+      <section className="relative overflow-hidden bg-accent px-5 py-20 text-center md:py-28">
+        <div className="absolute -right-20 -top-28 size-72 rounded-full bg-white/40 md:size-96" aria-hidden="true" />
+        <div className="absolute -bottom-24 -left-16 size-56 rounded-full bg-white/30 md:size-72" aria-hidden="true" />
+        <Reveal className="relative mx-auto max-w-[1200px]">
+          <h2 className="text-3xl font-extrabold text-ink md:text-4xl">Ready to start your VA career?</h2>
+          <p className="mx-auto mb-8 mt-3 max-w-lg text-ink/80">Learn product research from home and build a skill Amazon sellers are looking for.</p>
+          <Link to="/checkout" className={`${cta.whiteRaised} hover:bg-accent active:bg-accent`}>
+            Enroll in the Masterclass <ArrowRight className="size-4" />
+          </Link>
         </Reveal>
       </section>
     </Page>
