@@ -106,7 +106,7 @@ app.post('/api/payment-submissions', (req, res) => {
 // Uploaded images are saved to site-images/<slot>.<ext> and served at /api/site-images/<slot>.
 // Uploading requires the ADMIN_PASSWORD from .env, sent in the x-admin-password header.
 const SITE_IMAGES_DIR = path.join(ROOT, 'site-images')
-const SITE_IMAGE_SLOTS = ['course']
+const SITE_IMAGE_SLOTS = ['course', 'founder']
 const IMAGE_TYPES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' }
 
 const imageUpload = multer({

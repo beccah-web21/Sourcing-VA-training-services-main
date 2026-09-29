@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import { Page, cta, card } from '../components/Layout.jsx'
 import EditableImage from '../components/EditableImage.jsx'
+import Reveal from '../components/Reveal.jsx'
+import { FACEBOOK_URL } from '../config.js'
 import { amazonVaPlan } from '../components/PlanCard.jsx'
 
 // Placeholder content — swap bracketed text (testimonials, prices, contact info) for real details before launch.
@@ -56,26 +58,6 @@ const faqs = [
   { q: 'Do I get a certificate?', a: 'Yes! You’ll receive a certificate of completion after successfully completing the training.' },
   { q: 'How do I pay?', a: 'Pay securely via GCash, Maya, bank transfer, or card. Simply choose your preferred payment option at checkout.' },
 ]
-
-// Fade-up on scroll; shows immediately when reduced motion is preferred
-function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return setVisible(true)
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); io.disconnect() }
-    }, { threshold: 0.12 })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <Tag ref={ref} className={`transition duration-700 ease-out ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'} ${className}`} {...rest}>
-      {children}
-    </Tag>
-  )
-}
 
 function Accordion({ items }) {
   const [open, setOpen] = useState(null)
@@ -251,7 +233,7 @@ function HeroIllustration() {
 const socials = [
   {
     name: 'Facebook',
-    href: 'https://www.facebook.com/profile.php?id=61592055077493',
+    href: FACEBOOK_URL,
     icon: (
       <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
         <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />

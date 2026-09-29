@@ -10,3 +10,6 @@ export const PAY_TO = {
 
 // Shown on the Contact tab
 export const SUPPORT_EMAIL = ''
+
+// Facebook page — used for the social links and the About page contact button
+export const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61592055077493'
