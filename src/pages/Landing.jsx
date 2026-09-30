@@ -265,17 +265,17 @@ const socials = [
 function SiteFooter() {
   const explore = [['About Us', '/about'], ['Courses', '#learn'], ['Videos', '#videos'], ['Testimonials', '#testimonials'], ['FAQ', '#faq']]
   return (
-    <footer className="bg-tint-3 px-5 pb-8 pt-16">
+    <footer className="bg-ink px-5 pb-8 pt-16">
       <div className="mx-auto max-w-[1200px]">
         <div className="mb-10 grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
             {/* Same crop as the header logo: scaled up so the orange frame falls outside the circle */}
-            <span className="size-28 shrink-0 overflow-hidden rounded-full border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] md:size-32">
+            <span className="size-28 shrink-0 overflow-hidden rounded-full border-2 border-accent bg-white shadow-[4px_4px_0_var(--color-accent)] md:size-32">
               <img src="/logo.jpg" alt="Sourcing VA Training Services logo" className="size-full scale-[1.3] object-cover" />
             </span>
             <div>
-              <p className="text-2xl font-extrabold leading-tight text-ink">Sourcing VA Training Services</p>
-              <p className="mt-3 max-w-xs text-body">Helping Filipino VAs master product research and build careers from home.</p>
+              <p className="text-2xl font-extrabold leading-tight text-white">Sourcing VA Training Services</p>
+              <p className="mt-3 max-w-xs text-white/70">Helping Filipino VAs master product research and build careers from home.</p>
               <ul className="mt-5 flex gap-3">
                 {socials.map(({ name, href, icon }) => (
                   <li key={name}>
@@ -284,7 +284,7 @@ function SiteFooter() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={name}
-                      className="grid size-11 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-[3px_3px_0_var(--color-ink)] transition hover:-translate-y-0.5 hover:bg-accent"
+                      className="grid size-11 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-[3px_3px_0_var(--color-accent)] transition hover:-translate-y-0.5 hover:bg-accent"
                     >
                       {icon}
                     </a>
@@ -294,21 +294,21 @@ function SiteFooter() {
             </div>
           </div>
           <div>
-            <h4 className="mb-4 text-xl font-extrabold text-ink">Quick Links</h4>
-            <ul className="space-y-2 text-body">
-              {explore.map(([t, h]) => <li key={t}><a href={h} className="underline-offset-4 transition-colors hover:text-orange-700 hover:underline">{t}</a></li>)}
+            <h4 className="mb-4 text-xl font-extrabold text-accent">Quick Links</h4>
+            <ul className="space-y-2 text-white/70">
+              {explore.map(([t, h]) => <li key={t}><a href={h} className="underline-offset-4 transition-colors hover:text-accent hover:underline">{t}</a></li>)}
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 text-xl font-extrabold text-ink">Contact Info</h4>
-            <ul className="space-y-2 text-body">
-              <li><a href="mailto:arbiscouttraininghub.ph@gmail.com" className="break-all hover:text-ink">arbiscouttraininghub.ph@gmail.com</a></li>
-              <li><a href={socials[0].href} target="_blank" rel="noopener noreferrer" className="hover:text-ink">Sourcing VA Training Services</a></li>
+            <h4 className="mb-4 text-xl font-extrabold text-accent">Contact Info</h4>
+            <ul className="space-y-2 text-white/70">
+              <li><a href="mailto:arbiscouttraininghub.ph@gmail.com" className="break-all hover:text-accent">arbiscouttraininghub.ph@gmail.com</a></li>
+              <li><a href={socials[0].href} target="_blank" rel="noopener noreferrer" className="hover:text-accent">Sourcing VA Training Services</a></li>
               <li>Puerto Princesa City, Palawan, Philippines</li>
             </ul>
           </div>
         </div>
-        <p className="border-t border-line pt-6 text-center text-sm text-muted">
+        <p className="border-t border-white/15 pt-6 text-center text-sm text-white/55">
           © {new Date().getFullYear()} Sourcing VA Training Services. All rights reserved.
         </p>
       </div>

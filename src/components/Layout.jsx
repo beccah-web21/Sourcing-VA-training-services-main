@@ -95,16 +95,16 @@ export function Footer({ copyright = '© 2026 Sourcing VA Training Services. All
     { text: 'Help', link: '#help' },
   ]
   return (
-    <footer className="rounded-t-[2rem] bg-white px-6 py-12 md:px-8">
+    <footer className="rounded-t-[2rem] bg-ink px-6 py-12 md:px-8">
       <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-8 md:flex-row">
         <div className="text-center md:text-left">
-          <p className="font-bold text-ink">Sourcing VA Training Services</p>
-          {description && <p className="mt-2 max-w-sm text-xs text-body">{description}</p>}
-          <p className="mt-2 text-xs text-body">{copyright}</p>
+          <p className="font-bold text-white">Sourcing VA Training Services</p>
+          {description && <p className="mt-2 max-w-sm text-xs text-white/70">{description}</p>}
+          <p className="mt-2 text-xs text-white/55">{copyright}</p>
         </div>
-        <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-body">
+        <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-white/70">
           {items.map((l) => (
-            <a key={l.text} href={l.link} className="transition hover:text-brand">
+            <a key={l.text} href={l.link} className="transition hover:text-accent">
               {l.text}
             </a>
           ))}
