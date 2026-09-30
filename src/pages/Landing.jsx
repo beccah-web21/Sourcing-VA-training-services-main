@@ -38,8 +38,9 @@ const courseHighlights = [
 // youtubeId is the part after "watch?v=" in a YouTube link; leave it empty to show a "coming soon" card
 const videos = [
   { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
-  { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
-  { youtubeId: '', title: '[Video title]', description: '[Short description of what this video covers.]' },
+  // photo shows a still image instead of a video; cards without a title skip the text block
+  { photo: '/training-session-1.jpg', alt: 'Trainees on a live Zoom training session' },
+  { photo: '/training-session-2.png', alt: 'Trainees on a live Zoom training session' },
 ]
 
 const testimonials = [
@@ -90,12 +91,15 @@ function Accordion({ items }) {
 }
 
 // Shows the YouTube thumbnail until clicked, so the page doesn't load three players up front
-function VideoCard({ youtubeId, title, description, featured }) {
+function VideoCard({ youtubeId, title, description, photo, alt, featured }) {
   const [playing, setPlaying] = useState(false)
   return (
     <Reveal className={`${card} flex flex-col overflow-hidden ${featured ? 'md:col-span-2' : ''}`}>
-      <div className="relative aspect-video border-b-2 border-ink bg-tint-3">
-        {!youtubeId ? (
+      {/* Photos keep their own shape (never cropped); the dark fill matches the Zoom screenshots if a card is taller */}
+      <div className={`relative ${photo ? 'grid flex-1 place-items-center bg-[#16171a]' : 'aspect-video bg-tint-3'} ${title ? 'border-b-2 border-ink' : ''}`}>
+        {photo ? (
+          <img src={photo} alt={alt} loading="lazy" className="block h-auto w-full" />
+        ) : !youtubeId ? (
           <div className="grid size-full place-items-center text-center">
             <div>
               <CirclePlay className="mx-auto size-12 text-ink/40" strokeWidth={1.5} />
@@ -119,10 +123,12 @@ function VideoCard({ youtubeId, title, description, featured }) {
           </button>
         )}
       </div>
-      <div className={featured ? 'p-7 md:p-8' : 'p-6'}>
-        <h3 className={`mb-2 font-bold text-ink ${featured ? 'text-2xl' : 'text-lg'}`}>{title}</h3>
-        <p className="text-[15px] text-body">{description}</p>
-      </div>
+      {title && (
+        <div className={featured ? 'p-7 md:p-8' : 'p-6'}>
+          <h3 className={`mb-2 font-bold text-ink ${featured ? 'text-2xl' : 'text-lg'}`}>{title}</h3>
+          <p className="text-[15px] text-body">{description}</p>
+        </div>
+      )}
     </Reveal>
   )
 }

@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, BadgeCheck, Landmark, MapPin, MessageCircle, Quote, Route, Wrench } from 'lucide-react'
+import { ArrowRight, BadgeCheck, Landmark, MapPin, MessageCircle } from 'lucide-react'
 import { Page, Footer, cta, card } from '../components/Layout.jsx'
 import EditableImage from '../components/EditableImage.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { FACEBOOK_URL } from '../config.js'
 
-// Placeholder content — swap bracketed text (founder name, bio, story, registration details) for the real details before launch.
-// Founder photo: open /about?edit and use "Change image".
+// Founder photo: shows /founder.jpg until one is uploaded via /about?edit and "Change image".
 
-const FOUNDER = { name: '[Founder Name]', title: 'Founder & Owner, Sourcing VA Training Services' }
+const FOUNDER = { name: 'Rebeccah Gonzales', title: 'Founder and Training Coach, Sourcing VA Training Services' }
 
 // Only keep this card if the business is actually registered — every value must match the certificate.
 const REGISTRATION = {
@@ -16,26 +15,13 @@ const REGISTRATION = {
   summary: 'Sourcing VA Training Services is a registered business in the Philippines.',
   fields: [
     ['Business name', 'Sourcing VA Training Services'],
-    ['Registered owner', '[Founder Name]'],
-    ['Issuer', '[e.g. Department of Trade and Industry (DTI)]'],
-    ['Registration No.', '[Certificate number]'],
-    ['Date of registration', '[Date]'],
-    ['Services', 'Training services; online courses; coaching'],
+    ['Registered owner', 'Rebeccah Gonzales'],
+    ['Issuer', 'Department of Trade and Industry'],
+    ['Registration No.', '8502994'],
+    ['Date of registration', 'September 22, 2026'],
+    ['Services', 'Online Training Services'],
   ],
 }
-
-const reasons = [
-  {
-    icon: Wrench,
-    title: 'Build relevant skill',
-    body: '[Your background, e.g. years of experience as an Amazon VA, the tools you use every day and the clients you’ve worked with.]',
-  },
-  {
-    icon: Route,
-    title: 'Get the right path',
-    body: 'Live training, a real internship and a lifetime community, so you learn the exact skills Amazon sellers hire for.',
-  },
-]
 
 function Eyebrow({ children }) {
   return (
@@ -56,7 +42,7 @@ export default function About() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border-2 border-ink bg-tint-3">
               <EditableImage
                 slot="founder"
-                fallback="/founder-placeholder.svg"
+                fallback="/founder.jpg"
                 alt={`${FOUNDER.name}, founder of Sourcing VA Training Services`}
                 className="absolute inset-0 size-full object-cover object-top"
               />
@@ -76,12 +62,14 @@ export default function About() {
 
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-body">
               <p>
-                {FOUNDER.name} is the founder of Sourcing VA Training Services, a Philippine training platform that teaches beginners the Amazon
-                product research and sourcing skills sellers hire VAs for. [Add a line about your own VA experience.]
+                {FOUNDER.name} started her VA journey with no experience and no idea where to start. As a fresh Elementary Education
+                graduate, she began with her mom’s borrowed laptop, took online courses, and discovered Amazon product research. Today, she has
+                4+ years of experience as an Amazon VA, working with the Amazon US marketplace.
               </p>
               <p>
-                The goal is a clear path from zero experience to a first Amazon VA role, through live lessons, hands-on practice and a
-                community that keeps you learning long after the training ends.
+                Her journey inspired her to create Sourcing VA Training Services to help beginners who are starting from zero. Her goal is
+                simple: make learning less overwhelming, help aspiring VAs focus on one skill, and give them a clear path into Amazon product
+                research. If she could start from zero, so can you.
               </p>
             </div>
 
@@ -114,47 +102,6 @@ export default function About() {
                 <MessageCircle className="size-4" /> Message us on Facebook
               </a>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Why I built it */}
-      <section className="bg-white px-5 py-20 md:py-24">
-        <div className="mx-auto max-w-[1000px]">
-          <Reveal className="mx-auto mb-12 max-w-2xl text-center">
-            <Eyebrow>Our story</Eyebrow>
-            <h2 className="text-3xl font-extrabold leading-tight text-ink md:text-4xl">
-              Why I built{' '}
-              <strong className="relative inline-block font-extrabold">
-                <span className="absolute inset-x-0 bottom-1 h-3 rounded bg-accent md:h-4" aria-hidden="true" />
-                <span className="relative">Sourcing VA</span>
-              </strong>
-            </h2>
-          </Reveal>
-
-          <div className="grid gap-10 md:grid-cols-2 md:gap-6">
-            {reasons.map(({ icon: Icon, title, body }, i) => (
-              <Reveal key={title} className={`${card} relative p-7 pt-9`}>
-                <span className="absolute -top-5 left-7 grid size-10 place-items-center rounded-full border-2 border-ink bg-accent text-sm font-extrabold text-ink">
-                  #{i + 1}
-                </span>
-                <Icon className="mb-3 size-7 text-accent-ink" strokeWidth={2.2} />
-                <h3 className="text-xl font-extrabold text-ink">{title}</h3>
-                <p className="mt-2 leading-relaxed text-body">{body}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal className="relative mt-14 rounded-3xl border-2 border-ink bg-tint-2 px-6 py-10 shadow-[8px_8px_0_var(--color-ink)] sm:px-12">
-            <span className="absolute -top-6 left-8 grid size-12 place-items-center rounded-full border-2 border-ink bg-accent">
-              <Quote className="size-5 text-ink" strokeWidth={2.4} />
-            </span>
-            <p className="text-xl font-semibold leading-relaxed text-ink md:text-2xl">
-              We are just like you. [Share your story: where you started, what it cost you to learn, and when you started earning as a VA.]
-              You don’t have to go through the same trial and error, that’s why we built the most affordable training to help you start your
-              Amazon VA career from home.
-            </p>
-            <p className="mt-6 font-bold text-accent-ink">— {FOUNDER.name}</p>
           </Reveal>
         </div>
       </section>
